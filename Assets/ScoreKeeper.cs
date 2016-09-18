@@ -78,12 +78,15 @@ public class ScoreKeeper :  Singleton<ScoreKeeper> {
 
 	public void registerAPoint(Boulder boulder) {
 		score += boulder.preciousness;
+/*
         health += Mathf.RoundToInt(Mathf.Clamp((float)boulder.preciousness / 2f, 1f, 5f));
         health = health < maxHealth? health : maxHealth;
+*/
 	}
 
     private void applyPenalty(Duck duck) {
-        health -= duck.missPenalty;
+        AmmoClip.Instance.addAmmo(-1);
+        //health -= duck.missPenalty;
     }
 
 	public void lose(string because) {

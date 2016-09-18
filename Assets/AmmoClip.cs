@@ -7,7 +7,7 @@ public class AmmoClip : Singleton<AmmoClip> {
 
     protected AmmoClip() { }
 
-    public float refillInterval = 5f;
+    public float refillInterval = 8f;
     public PercentageBar percentageBar;
 
     public int maxAmmo = 50;

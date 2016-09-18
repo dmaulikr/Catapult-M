@@ -5,16 +5,19 @@ using System;
 
 public class CatapultClicky : MonoBehaviour 
 {
-	//public Boulder boulderOriginal;
     public Boulder[] boulderPrefabs;
     public TrophyShelf trophyShelf;
 
-	public float strength = 5000f;
+	//public float strength = 5000f;
     protected Boulder boulderInWaiting;
     private List<float> requests = new List<float>();
     private BoulderChoiceMode choiceMode = new BoulderChoiceMode();
-    private bool awaitingCallback;
-    private float awaitCallbackTimeSeconds;
+    [SerializeField]
+    private Transform boulderTrajectoryTarget;
+
+    private Vector2 trajectory {
+        get { return (boulderTrajectoryTarget.position - transform.position).normalized; }
+    }
 
     public void Awake() {
         foreach(Boulder b in boulderPrefabs) {
@@ -23,13 +26,8 @@ public class CatapultClicky : MonoBehaviour
     }
 
     public void Update() {
-        if (!awaitingCallback && Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetKeyDown(KeyCode.Space) || Input.touchCount > 0) {
             requests.Add(Time.realtimeSinceStartup);
-        }
-        else if (awaitingCallback) {
-            if (Time.realtimeSinceStartup - awaitCallbackTimeSeconds > 1f) { //fail-safe
-                awaitingCallback = false;
-            }
         }
     }
 
@@ -39,41 +37,34 @@ public class CatapultClicky : MonoBehaviour
     }
 
 	public void FixedUpdate() {
-		if (boulderInWaiting == null && AmmoClip.Instance.getAmmo()) {
+		if (boulderInWaiting == null) {
             boulderInWaiting = Instantiate<Boulder>(getNextBoulder());
-            boulderInWaiting.postLaunchCallback = postLaunchCallback;
-            boulderInWaiting.GetComponent<Rigidbody2D>().gravityScale = 0;
             boulderInWaiting.transform.position = transform.position;
             boulderInWaiting.gameObject.SetActive(true);
+            boulderInWaiting.GetComponent<Rigidbody2D>().drag = 0f; //makes calc easier
+            boulderInWaiting.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         }
-		if (shouldShoot() && boulderInWaiting != null) {
-            throwBoulder(boulderInWaiting, transform.position, new Vector2(strength, strength));
-            awaitingCallback = true;
-            awaitCallbackTimeSeconds = Time.realtimeSinceStartup;
+		if (shouldShoot()) {
+            boulderInWaiting.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+            throwBoulder(boulderInWaiting, transform.position, getForce(boulderInWaiting.GetComponent<Rigidbody2D>()));
             boulderInWaiting = null;
 		}
 	}
 
+    private Vector2 getForce(Rigidbody2D boulderRB) {
+        Vector2 dif = boulderTrajectoryTarget.position - transform.position;
+        if (boulderRB.gravityScale == 0f) { boulderRB.gravityScale = 1f; }
+        float y0 = Mathf.Sqrt(dif.y * -2 * Physics2D.gravity.y * boulderRB.gravityScale);
+        float x0 = (-Physics2D.gravity.y * boulderRB.gravityScale / y0) * dif.x;
+        return new Vector2(x0, y0);
+    }
+
     public static void throwBoulder(Boulder theNewBoulder, Vector2 startPos, Vector2 direction) {
         Rigidbody2D theNewBouldersRB = theNewBoulder.GetComponent<Rigidbody2D> ();
-        theNewBouldersRB.velocity = Vector2.zero;
-        theNewBouldersRB.gravityScale = 5;
         theNewBoulder.transform.position = startPos;
-        theNewBouldersRB.AddForce (direction);
+        //theNewBouldersRB.velocity = direction; // Vector2.zero;
+        theNewBouldersRB.AddForce(direction * theNewBouldersRB.mass, ForceMode2D.Impulse);
         theNewBoulder.doLaunchRoutine();
-    }
-
-    //delegate
-    private void postLaunchCallback(Boulder.BoulderCallbackInfo bci) {
-        StartCoroutine(waitForSpaceKeyUp());
-    }
-
-    private IEnumerator waitForSpaceKeyUp() {
-        while(Input.GetKey(KeyCode.Space)) {
-            yield return new WaitForEndOfFrame();
-        }
-        yield return null;
-        awaitingCallback = false;
     }
 
     private bool shouldShoot() {
@@ -85,10 +76,6 @@ public class CatapultClicky : MonoBehaviour
             }
         }
         return false;
-    }
-
-    public void OnDestroy() {
-        print("catapult clicky destroy");
     }
 
 }
