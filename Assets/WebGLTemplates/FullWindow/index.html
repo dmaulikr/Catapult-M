@@ -1,0 +1,44 @@
+﻿<!doctype html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | %UNITY_WEB_NAME%</title>
+    <link rel="stylesheet" href="stylez.css">
+    <link rel="shortcut icon" href="TemplateData/favicon.ico" />
+    <script src="TemplateData/UnityProgress.js"></script>
+    <style>
+   
+    </style>
+</head>
+<body class="template" bgcolor="#555">
+        <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+        <div id="logo" >Duks</div>
+<script type="text/javascript">
+    function fade(element) {
+        var op = 3;  
+        var timer = setInterval(function () {
+            if (op <= 0.1) {
+                clearInterval(timer);
+                element.style.display = 'none';
+            }
+            element.style.opacity = op;
+            element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+            op -= op * 0.1;
+        }, 50);
+    }
+    var logo = document.getElementById("logo");
+    fade(logo);
+</script>
+<!--
+    <p class="header"><span>Unity WebGL Player | </span>%UNITY_WEB_NAME%</p>
+    <div class="template-wrap clear">
+        <div class="logo"></div>
+        <div class="fullscreen"><img src="TemplateData/fullscreen.png" width="38" height="38" alt="Fullscreen" title="Fullscreen" onclick="SetFullscreen(1);" /></div>
+        <div class="title">%UNITY_WEB_NAME%</div>
+    </div>
+    <p class="footer">&laquo; created with <a href="http://unity3d.com/" title="Go to unity3d.com">Unity</a> &raquo;</p>
+-->
+    %UNITY_WEBGL_LOADER_GLUE%
+</body>
+</html>

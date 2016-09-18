@@ -1,0 +1,25 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/ScoreKeeper.cs">
+    <Files>
+      <File FileName="Assets/TrophyShelf.cs" Line="13" Column="58" />
+      <File FileName="Assets/CatapultClicky.cs" Line="1" Column="1" />
+      <File FileName="Assets/AchievementPanel.cs" Line="6" Column="1" />
+      <File FileName="Assets/DuckDispenser.cs" Line="7" Column="2" />
+      <File FileName="Assets/Shark.cs" Line="1" Column="1" />
+      <File FileName="Assets/Duck.cs" Line="23" Column="12" />
+      <File FileName="Assets/WorldBounds.cs" Line="1" Column="1" />
+      <File FileName="Assets/Boulder.cs" Line="17" Column="1" />
+      <File FileName="Assets/ScoreKeeper.cs" Line="28" Column="3" />
+      <File FileName="Assets/SpriteStrobe.cs" Line="1" Column="1" />
+      <File FileName="Assets/Trophy.cs" Line="13" Column="61" />
+      <File FileName="Assets/Catapult.cs" Line="1" Column="1" />
+      <File FileName="Assets/Dove.cs" Line="20" Column="3" />
+      <File FileName="Assets/LosePanel.cs" Line="14" Column="2" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
