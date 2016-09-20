@@ -71,7 +71,7 @@ public class DuckDispenser : MonoBehaviour {
 
 	public void increaseFrequency(Boulder boulder) {
         if (!startedMaxFrequency) {
-            frequencyMultiplier = Mathf.Max(.03f, frequencyMultiplier * 0.94f);
+            frequencyMultiplier = Mathf.Max(.025f, frequencyMultiplier * 0.94f);
         }
         if (frequencyMultiplier < .04f) {
             StartCoroutine(resetFrequencyAfterATime());

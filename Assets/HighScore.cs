@@ -6,7 +6,8 @@ using System.Collections;
 public static class PlayerKeys
 {
     public static string HighScore = "HIGH_SCORE";
-    
+    public static string LaunchedGameCount = "LAUNCH_GAME_COUNT";
+    public static string UnPauses = "UNPAUSES";
 }
 
 
