@@ -125,6 +125,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\UnityAdsHelper\Examples\Audio\ReadMe.txt" />
+    <None Include="Assets\WebGLTemplates\FullWindow\TweenJS-master\LICENSE.txt" />
+    <None Include="Assets\WebGLTemplates\FullWindow\TweenJS-master\VERSIONS.txt" />
+    <None Include="Assets\WebGLTemplates\FullWindow\TweenJS-master\lib\README.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

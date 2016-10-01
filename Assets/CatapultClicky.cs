@@ -15,6 +15,12 @@ public class CatapultClicky : MonoBehaviour
     [SerializeField]
     private Transform boulderTrajectoryTarget;
 
+#if UNITY_IOS || UNITY_ANDRIOD
+    private float lastTouchTime;
+    [SerializeField]
+    private float touchDownTimeSeconds = .2f;
+#endif
+
     private Vector2 trajectory {
         get { return (boulderTrajectoryTarget.position - transform.position).normalized; }
     }
@@ -26,9 +32,16 @@ public class CatapultClicky : MonoBehaviour
     }
 
     public void Update() {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.touchCount > 0) {
+#if UNITY_IOS || UNITY_ANDRIOD
+        if (Mathf.Abs(Time.time - lastTouchTime) > touchDownTimeSeconds && Input.touchCount > 0) {
+            lastTouchTime = Time.time;
             requests.Add(Time.realtimeSinceStartup);
         }
+#else
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            requests.Add(Time.realtimeSinceStartup);
+        }
+#endif
     }
 
     private Boulder getNextBoulder() {
@@ -62,7 +75,6 @@ public class CatapultClicky : MonoBehaviour
     public static void throwBoulder(Boulder theNewBoulder, Vector2 startPos, Vector2 direction) {
         Rigidbody2D theNewBouldersRB = theNewBoulder.GetComponent<Rigidbody2D> ();
         theNewBoulder.transform.position = startPos;
-        //theNewBouldersRB.velocity = direction; // Vector2.zero;
         theNewBouldersRB.AddForce(direction * theNewBouldersRB.mass, ForceMode2D.Impulse);
         theNewBoulder.doLaunchRoutine();
     }
