@@ -5,8 +5,10 @@ using UnityEngine.Advertisements;
 
 public class Advert : MonoBehaviour
 {
-     public void Start() {
-        if (timeToShowAd()) {
+#if UNITY_IOS || UNITY_ANDRIOD
+
+    public void Start() {
+        if (timeToShowAdOnStart()) {
             StartCoroutine(waitThenShow());
         }
     }
@@ -18,11 +20,12 @@ public class Advert : MonoBehaviour
         StartCoroutine(ShowAd());
     }
     
-    internal bool timeToShowAd() {
-        return PlayerBehaviourData.Instance.openedAppCount > 0 && PlayerBehaviourData.Instance.openedAppCount % 3 == 0;
+    internal bool timeToShowAdOnStart() {
+        return PlayerBehaviourData.Instance.openedAppCount > 5 && PlayerBehaviourData.Instance.openedAppCount % 3 == 0;
     }
+
     private bool timeToShowAdOnUnpause() {
-        return PlayerBehaviourData.Instance.unpauses > 0 && PlayerBehaviourData.Instance.unpauses % 16 == 0;
+        return !timeToShowAdOnStart() && PlayerBehaviourData.Instance.unpauses > 0 && PlayerBehaviourData.Instance.unpauses % 16 == 0;
     }
 
     public IEnumerator ShowAd() {
@@ -30,7 +33,7 @@ public class Advert : MonoBehaviour
             var options = new ShowOptions { resultCallback = addDone };
             Advertisement.Show(null, options);
             while(Advertisement.isShowing) {
-                Time.timeScale = .001f;
+                Time.timeScale = .0f;
                 yield return new WaitForSeconds(.1f);
             }
         }
@@ -39,14 +42,13 @@ public class Advert : MonoBehaviour
     public void OnApplicationPause(bool pause) {
         if(!pause && timeToShowAdOnUnpause()) {
             StartCoroutine(waitThenShow());
-        }
+        } 
     }
-
 
     private void addDone(ShowResult result) {
-        print("add done");
         Time.timeScale = 1f;
     }
+#endif
 }
 
 

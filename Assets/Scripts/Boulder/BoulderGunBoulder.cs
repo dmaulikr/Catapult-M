@@ -35,7 +35,6 @@ public class BoulderGunBoulder : EmpoweredBoulder {
 
     public void Update() {
         if(canShoot && Input.GetKeyDown(KeyCode.Space)) {
-            print("space");
             secondaryShot();
         }
     }

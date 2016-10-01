@@ -37,7 +37,7 @@ public class PlayerBehaviourData : Singleton<PlayerBehaviourData> {
 	}
 
     public void OnApplicationPause(bool pause) {
-        print("pause: " + pause);
+        print("unpauses: " + unpauses);
         if(!pause) { unpauses++; }
 
     }

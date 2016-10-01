@@ -11,7 +11,8 @@ public class BossDuck : Duck {
     protected float slow = .3f;
     protected ColorLerp colorLerp;
 
-    public void Awake() {
+    public override void Awake() {
+        base.Awake();
         colorLerp = GetComponent<ColorLerp>();
     }
 

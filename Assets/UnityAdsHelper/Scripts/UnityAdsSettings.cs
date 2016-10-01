@@ -3,8 +3,8 @@ using System.Collections;
 
 public class UnityAdsSettings : ScriptableObject 
 {
-	public const string defaultIosGameId = "18660";
-	public const string defaultAndroidGameId = "18658";
+    public const string defaultIosGameId = "1146483";//18660";
+    public const string defaultAndroidGameId = "1146483";//18658";
 
 	public string iosGameId     = null;
 	public string androidGameId = null;
