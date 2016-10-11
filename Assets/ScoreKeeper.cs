@@ -10,7 +10,7 @@ public class ScoreKeeper :  Singleton<ScoreKeeper> {
     private TrophyShelf trophyShelf;
     [SerializeField]
     private LosePanel losePanel;
-    private bool canLose = false;
+    private bool canLose = true;
 
     public delegate void Reset();
     public Reset OnReset;
@@ -20,8 +20,10 @@ public class ScoreKeeper :  Singleton<ScoreKeeper> {
 
     public float ammoBonusMultiplier = 1f;
 
+    private int hitsInARow;
+
 	public void Awake() {
-        losePanel.hide();
+        
 		Duck.OnGotAHit += registerAPoint;
         Duck.OnNeverGotHit += applyPenalty;
         reset();
@@ -35,7 +37,7 @@ public class ScoreKeeper :  Singleton<ScoreKeeper> {
     [SerializeField]
     private PercentageBar healthBar;
     [SerializeField]
-    private int maxHealth = 50;
+    private int maxHealth = 1;
     private int _health;
     private float healthPercent { get { return (float)_health / (float)maxHealth; } }
     private int health {
@@ -51,10 +53,13 @@ public class ScoreKeeper :  Singleton<ScoreKeeper> {
 
     //TODO: missed ducks no longer subtract from score. instead they subtract from lives
 	private int _score;
+    [SerializeField]
+    private int hitsInARowBonus;
+
     private int score {
         get { return _score; }
         set {
-            AmmoClip.Instance.addAmmo(getAmmoBonus(value - _score));
+            
             _score = value;
             HighScore.Instance.updateHighscore(_score);
             if (text != null)
@@ -76,17 +81,19 @@ public class ScoreKeeper :  Singleton<ScoreKeeper> {
 		return score;
 	}
 
-	public void registerAPoint(Boulder boulder) {
-		score += boulder.preciousness;
-/*
-        health += Mathf.RoundToInt(Mathf.Clamp((float)boulder.preciousness / 2f, 1f, 5f));
+	public void registerAPoint(DuckHitInfo dhi) {
+        score += dhi.boulder.preciousness;
+        if(++hitsInARow > hitsInARowBonus) {
+            AmmoClip.Instance.addAmmo(getAmmoBonus(Mathf.Max(1, Mathf.RoundToInt(dhi.duck.evilness * 1.4f))));
+        }
+        health += Mathf.RoundToInt(Mathf.Clamp(dhi.boulder.preciousness / 2f, 1f, 5f));
         health = health < maxHealth? health : maxHealth;
-*/
 	}
 
     private void applyPenalty(Duck duck) {
-        AmmoClip.Instance.addAmmo(-1);
-        //health -= duck.missPenalty;
+        hitsInARow = 0;
+        AmmoClip.Instance.addAmmo((int)(-duck.missPenalty));
+        health -= duck.missPenalty;
     }
 
 	public void lose(string because) {
@@ -102,9 +109,13 @@ public class ScoreKeeper :  Singleton<ScoreKeeper> {
     }
 
     private void reset() {
+        losePanel.hide();
         canLose = false;
+        hitsInARow = 0;
         _score = 0;
-        _health = maxHealth;
+        health = maxHealth;
+        AmmoClip.Instance.addAmmo(int.MaxValue);
         text.text = "";
+        OnReset();
     }
 }

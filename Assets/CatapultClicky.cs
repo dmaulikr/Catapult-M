@@ -46,18 +46,25 @@ public class CatapultClicky : MonoBehaviour
 
     private Boulder getNextBoulder() {
         choiceMode.setIntensity(trophyShelf.achievementLevel);
-        return boulderPrefabs[choiceMode.getPick()];
+        if(AmmoClip.Instance.deductAmmo()) {
+            return Instantiate<Boulder>(boulderPrefabs[choiceMode.getPick()]);
+        } else {
+            requests.Clear(); 
+        }
+        return null;
     }
 
 	public void FixedUpdate() {
 		if (boulderInWaiting == null) {
-            boulderInWaiting = Instantiate<Boulder>(getNextBoulder());
-            boulderInWaiting.transform.position = transform.position;
-            boulderInWaiting.gameObject.SetActive(true);
-            boulderInWaiting.GetComponent<Rigidbody2D>().drag = 0f; //makes calc easier
-            boulderInWaiting.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+            boulderInWaiting = getNextBoulder();
+            if(boulderInWaiting) {
+                boulderInWaiting.transform.position = transform.position;
+                boulderInWaiting.gameObject.SetActive(true);
+                boulderInWaiting.GetComponent<Rigidbody2D>().drag = 0f; //makes calc easier
+                boulderInWaiting.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+            }
         }
-		if (shouldShoot()) {
+		if (boulderInWaiting && shouldShoot()) {
             boulderInWaiting.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
             throwBoulder(boulderInWaiting, transform.position, getForce(boulderInWaiting.GetComponent<Rigidbody2D>()));
             boulderInWaiting = null;

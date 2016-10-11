@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
-public class Advert : MonoBehaviour
+public class Advert : MonoBehaviour 
 {
 #if UNITY_IOS || UNITY_ANDRIOD
 

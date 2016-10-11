@@ -2,13 +2,34 @@
 using System.Collections;
 using UnityEngine.UI;
 using System;
+public struct DuckHitInfo
+{
+    public Boulder boulder;
+    public Duck duck;
+
+    public static DuckHitInfo make(Boulder b, Duck d) {
+        DuckHitInfo dhi = new DuckHitInfo();
+        dhi.boulder = b;
+        dhi.duck = d;
+        return dhi;
+    }
+
+    public static implicit operator DuckHitInfo(Boulder b) {
+        DuckHitInfo dhi = new DuckHitInfo();
+        dhi.boulder = b;
+        return dhi;
+    }
+};
 
 public class Duck : MonoBehaviour , IDestructable {
 	
 	public float speed = .1f;
-	private bool gotHit = false;
+	public bool gotHit {
+        get;
+        protected set;
+    }
 
-	public delegate void HandleGotAHit (Boulder boulder);
+	public delegate void HandleGotAHit (DuckHitInfo dhi);
 	public static event HandleGotAHit OnGotAHit;
 
     public delegate void HandleNeverGotHit(Duck duck);
@@ -27,7 +48,9 @@ public class Duck : MonoBehaviour , IDestructable {
     [SerializeField]
     protected int _evilness = 0;
 
-    public int missPenalty = 1;
+    public int missPenalty {
+        get { return Mathf.Max(2, evilness); }
+    }
 
     public virtual int evilness {
         get { return _evilness; }
@@ -95,7 +118,7 @@ public class Duck : MonoBehaviour , IDestructable {
 		gotHit = true;
         doMove = doNothing;
         rb.constraints = RigidbodyConstraints2D.None;
-		OnGotAHit (boulder);
+		OnGotAHit (DuckHitInfo.make(boulder, this));
 		GetComponent<Rigidbody2D> ().gravityScale = 1f;
         return true;
 	}

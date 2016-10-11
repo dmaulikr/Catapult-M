@@ -6,7 +6,18 @@ using System;
 
 public class TrophyShelf : MonoBehaviour {
 
-	protected Trophy[] trophies;
+    private Trophy[] _trophies;
+    protected Trophy[] trophies {
+        get {
+            if(_trophies == null) {
+                _trophies = GetComponentsInChildren<Trophy>();
+            }
+            return _trophies;
+        }
+        set {
+            _trophies = value;
+        }
+    }
 	public AchievementPanel achPanel;
 
     void OnEnable() {
@@ -20,6 +31,7 @@ public class TrophyShelf : MonoBehaviour {
 
     private void reset() {
         hideTrophies();
+        sortTrophies();
     }
 
     private void hideTrophies() {
@@ -29,10 +41,10 @@ public class TrophyShelf : MonoBehaviour {
         }
     }
 
+
 	void Start () {
-		trophies = GetComponentsInChildren<Trophy> ();
-        hideTrophies();
-        sortTrophies();
+        //hideTrophies();
+        //sortTrophies();
 	}
 
     private void sortTrophies() {

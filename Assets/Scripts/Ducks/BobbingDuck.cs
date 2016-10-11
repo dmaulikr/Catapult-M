@@ -7,4 +7,10 @@ public class BobbingDuck : Duck {
         bobMovement = true;
         base.Awake();
     }
+
+    public override int evilness {
+        get {
+            return 0;
+        }
+    }
 }

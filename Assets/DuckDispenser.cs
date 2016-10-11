@@ -10,7 +10,7 @@ public class DuckDispenser : MonoBehaviour {
     protected ChoiceMode choiceMode;
 
 	public float baseFrequency = 2f;
-	private float frequencyMultiplier = 1f;
+    private float frequencyMultiplier;
     private float speedMultiplier = 1f;
 
     private int[] intensityMilestoneIntervals;
@@ -55,7 +55,8 @@ public class DuckDispenser : MonoBehaviour {
 	}
 
     private void reset() {
-
+        choiceMode.reset();
+        frequencyMultiplier = 1f;
     }
 
     public void OnDestroy() {
@@ -69,7 +70,7 @@ public class DuckDispenser : MonoBehaviour {
         }
     }
 
-	public void increaseFrequency(Boulder boulder) {
+	public void increaseFrequency(DuckHitInfo dhi) {
         if (!startedMaxFrequency) {
             frequencyMultiplier = Mathf.Max(.025f, frequencyMultiplier * 0.94f);
         }
@@ -139,7 +140,7 @@ public struct DuckOriginals
 
     public Duck this[int i] {
         get {
-            switch(i) {
+            switch (i) {
                 case 0:
                     return duck;
                 case 1:

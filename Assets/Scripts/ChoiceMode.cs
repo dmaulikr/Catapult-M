@@ -12,6 +12,11 @@ public class ChoiceMode
         duckIntensity = duckIntensity > pickArrays.Count - 1 ? pickArrays.Count - 1 : duckIntensity; 
     }
 
+    public void reset() {
+        duckIntensity = 0;
+        index = 0;
+    }
+
     //public ChoiceMode(DuckOriginals dos) {
     //    //this.dos = dos;
     //}

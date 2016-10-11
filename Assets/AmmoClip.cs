@@ -8,6 +8,7 @@ public class AmmoClip : Singleton<AmmoClip> {
     protected AmmoClip() { }
 
     public float refillInterval = 8f;
+    public int refillAmount = 4;
     public PercentageBar percentageBar;
 
     public int maxAmmo = 50;
@@ -34,7 +35,7 @@ public class AmmoClip : Singleton<AmmoClip> {
     private IEnumerator refill() {
         while(true) {
             yield return new WaitForSeconds(refillInterval);
-            ammo++;
+            ammo += refillAmount;
         }
     }
 
@@ -51,11 +52,11 @@ public class AmmoClip : Singleton<AmmoClip> {
         ammo = maxAmmo;
     }
 
-    public bool available {
+    private bool available {
         get { return ammo > 0; }
     }
 
-    public bool getAmmo() {
+    public bool deductAmmo() {
         if (available) {
             ammo--;
             return true;

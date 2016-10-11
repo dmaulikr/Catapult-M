@@ -8,6 +8,6 @@ public class EmpoweredBoulder : Boulder {
     }
 
     protected override bool canHandleEvilness(Duck duck) {
-        return duck.evilness < 2;
+        return duck.evilness < 100;
     }
 }

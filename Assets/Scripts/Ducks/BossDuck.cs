@@ -4,16 +4,23 @@ using System;
 
 public class BossDuck : Duck {
 
-    protected const int maxHitPoints = 20;
-    [SerializeField]
+    protected static int maxHitPoints = 20;
     protected int hitPoints = maxHitPoints;
     [SerializeField , Range(0, 1)]
     protected float slow = .3f;
     protected ColorLerp colorLerp;
+    SpriteRenderer sr;
 
     public override void Awake() {
         base.Awake();
         colorLerp = GetComponent<ColorLerp>();
+        colorLerp.spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    }
+
+    public override int evilness {
+        get {
+            return 30;
+        }
     }
 
     public override bool getHit(Boulder boulder) {
@@ -36,6 +43,7 @@ public class BossDuck : Duck {
     }
 
     protected void status(int hitPoints) {
-        colorLerp.set(percentage);
+        colorLerp.set(1f - percentage);
+        //colorLerp.strobeStartEnd();
     }
 }
