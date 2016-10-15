@@ -106,6 +106,10 @@
     <Compile Include="Assets\Starter.cs" />
     <Compile Include="Assets\Trophy.cs" />
     <Compile Include="Assets\TrophyShelf.cs" />
+    <Compile Include="Assets\UIBars\Scripts\ControlBar.cs" />
+    <Compile Include="Assets\UIBars\Scripts\CriteriaRule.cs" />
+    <Compile Include="Assets\UIBars\Scripts\UIBarScript.cs" />
+    <Compile Include="Assets\UIBars\Scripts\UpdateAnimationRule.cs" />
     <Compile Include="Assets\UnityAdsHelper\Examples\Scripts\ButtonExample.cs" />
     <Compile Include="Assets\UnityAdsHelper\Examples\Scripts\CreditsButton.cs" />
     <Compile Include="Assets\UnityAdsHelper\Examples\Scripts\DontDestroyOnLoad.cs" />
