@@ -5,7 +5,6 @@ using System;
 public class BoulderGunBoulder : EmpoweredBoulder {
 
     public Boulder prefabSecondary;
-    private bool canShoot;
 
     protected override void reactToHit(Duck duck) {
         base.reactToHit(duck);
@@ -19,24 +18,19 @@ public class BoulderGunBoulder : EmpoweredBoulder {
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
-        canShoot = true;
+        yield return new WaitForSeconds(.5f);
+        secondaryShot();
     }
 
     private void secondaryShot() {
-        if(prefabSecondary.gameObject.activeSelf) { return; }
         Boulder secondary = Instantiate<Boulder>(prefabSecondary);
         secondary.gameObject.SetActive(true);
-        Vector2 normal = GetComponent<Rigidbody2D>().velocity;
-        normal.x *= -50;
-        normal.y =  Mathf.Abs(normal.x) * 5f;
-        CatapultClicky.throwBoulder(secondary, transform.position, normal);
-        callBack(new BoulderCallbackInfo());
-    }
+        Vector3 startPos = transform.position - Vector3.up * 2;
+        Vector3 offset = Vector3.up * 4f + Vector3.right * -3f;
+        Vector2 dir = CatapultClicky.forceToReach(secondary.GetComponent<Rigidbody2D>(), startPos, startPos + offset);
 
-    public void Update() {
-        if(canShoot && Input.GetKeyDown(KeyCode.Space)) {
-            secondaryShot();
-        }
+        CatapultClicky.throwBoulder(secondary, transform.position + Vector3.up * 3, dir);
+        callBack(new BoulderCallbackInfo());
     }
 
     public void OnDestroy() {

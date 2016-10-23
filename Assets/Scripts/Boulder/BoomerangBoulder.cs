@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class BoomerangBoulder : Boulder {
+public class BoomerangBoulder : EmpoweredBoulder {
 
     public Vector2 forceDir = new Vector2(1f, 1f).normalized;
     public float turnPower = 10f;

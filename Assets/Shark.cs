@@ -16,9 +16,11 @@ public class Shark : MonoBehaviour {
 	}
 
 	void OnDisable() {
-		Duck.OnGotAHit -= celebrate;
+        Duck.OnGotAHit -= celebrate;
         Duck.OnNeverGotHit -= acknowledgeNeverHit;
-        ScoreKeeper.Instance.OnReset -= reset;
+        if (ScoreKeeper.Instance != null) {
+            ScoreKeeper.Instance.OnReset -= reset;
+        }
 	}
 
 	protected void celebrate(DuckHitInfo boulder) {
@@ -56,10 +58,7 @@ public class Shark : MonoBehaviour {
     private void reset() {
         audioSource.Play();
     }
-	
-	void Update () {
-		
-	}
+
 
 	public void animationEnded() {
 		animator.SetBool ("Excited", false);

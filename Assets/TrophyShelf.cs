@@ -61,6 +61,7 @@ public class TrophyShelf : MonoBehaviour {
 		foreach (Trophy t in trophies) {
 			if (!t.achieved && t.requiredDucks <= ScoreKeeper.Instance.getScore()) {
 				t.achieved = true;
+                t.award();
 				t.appear ();
 				StartCoroutine (achieve (t));
                 return;

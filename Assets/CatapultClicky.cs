@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class CatapultClicky : MonoBehaviour 
+public class CatapultClicky : MonoBehaviour , UpgradeReceiver
 {
     public Boulder[] boulderPrefabs;
     public TrophyShelf trophyShelf;
@@ -44,8 +44,11 @@ public class CatapultClicky : MonoBehaviour
 #endif
     }
 
-    private Boulder getNextBoulder() {
+    public void setBoulderIntensity() {
         choiceMode.setIntensity(trophyShelf.achievementLevel);
+    }
+
+    private Boulder getNextBoulder() {
         if(AmmoClip.Instance.deductAmmo()) {
             return Instantiate<Boulder>(boulderPrefabs[choiceMode.getPick()]);
         } else {
@@ -72,7 +75,11 @@ public class CatapultClicky : MonoBehaviour
 	}
 
     private Vector2 getForce(Rigidbody2D boulderRB) {
-        Vector2 dif = boulderTrajectoryTarget.position - transform.position;
+        return forceToReach(boulderRB, transform.position, boulderTrajectoryTarget.position);
+    }
+
+    public static Vector2 forceToReach(Rigidbody2D boulderRB, Vector3 start, Vector3 end) {
+        Vector2 dif = end - start;
         if (boulderRB.gravityScale == 0f) { boulderRB.gravityScale = 1f; }
         float y0 = Mathf.Sqrt(dif.y * -2 * Physics2D.gravity.y * boulderRB.gravityScale);
         float x0 = (-Physics2D.gravity.y * boulderRB.gravityScale / y0) * dif.x;
@@ -97,4 +104,7 @@ public class CatapultClicky : MonoBehaviour
         return false;
     }
 
+    public void receive(Upgrade upgrade) {
+        choiceMode.setIntensity(upgrade.level());
+    }
 }

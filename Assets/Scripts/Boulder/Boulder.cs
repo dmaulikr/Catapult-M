@@ -11,6 +11,7 @@ public class Boulder : MonoBehaviour , IDestructable {
     public delegate void PostLaunchCallback(BoulderCallbackInfo bci);
     public PostLaunchCallback postLaunchCallback;
     public Zapper zap;
+    public BoulderType type;
 
     public void Awake() {
         awake();
@@ -96,3 +97,8 @@ public class Boulder : MonoBehaviour , IDestructable {
         
     }
 }
+
+[System.Serializable]
+public enum BoulderType {
+    BOULDER, EMPOWERED, BOULDER_GUN, BOOMERANG, BOMB
+};

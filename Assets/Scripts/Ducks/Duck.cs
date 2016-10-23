@@ -97,6 +97,12 @@ public class Duck : MonoBehaviour , IDestructable {
     protected delegate void DoMove();
     protected DoMove doMove;
 
+    public void OnTriggerEnter2D(Collider2D other) {
+        if (other.CompareTag("Bomb")) {
+            getHit(other.GetComponentInParent<Boulder>());
+        }
+    }
+
     void FixedUpdate () {
         doMove();
 		//if (!gotHit) {
