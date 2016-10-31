@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class PercentageBar : MonoBehaviour {
 
@@ -12,7 +13,17 @@ public class PercentageBar : MonoBehaviour {
     protected RectTransform bar;
     protected Image image;
 
+    [SerializeField]
+    private Text displayText;
+    [SerializeField]
+    private string label;
+
+    [SerializeField]
+    private Animator glowBar;
+    private AudioSource aud;
+
     public void Awake() {
+        aud = GetComponent<AudioSource>();
         bar = GetComponent<RectTransform>();
         image = GetComponent<Image>();
         set(bar.localScale.x);
@@ -23,6 +34,19 @@ public class PercentageBar : MonoBehaviour {
             bar.localScale = new Vector3(Mathf.Clamp01(f), 1f, 1f);
         if (image)
             image.color = Color.Lerp(emptyColor, fullColor, bar.localScale.x);
+    }
+
+    public void setNumbers(int current, int max) {
+        displayText.text = string.Format("{0}: {1}/{2}", label, current, max);
+    }
+
+    public void glow() {
+        glowBar.SetBool("isGlowTime", true);
+        aud.Play();
+    }
+
+    public void doneGlowing() {
+        glowBar.SetBool("isGlowTime", false);
     }
 
     public void Update() {

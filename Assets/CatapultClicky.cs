@@ -11,6 +11,7 @@ public class CatapultClicky : MonoBehaviour , UpgradeReceiver
 	//public float strength = 5000f;
     protected Boulder boulderInWaiting;
     private List<float> requests = new List<float>();
+    [SerializeField]
     private BoulderChoiceMode choiceMode = new BoulderChoiceMode();
     [SerializeField]
     private Transform boulderTrajectoryTarget;

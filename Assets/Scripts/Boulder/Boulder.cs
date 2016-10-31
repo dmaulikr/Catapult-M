@@ -17,6 +17,7 @@ public class Boulder : MonoBehaviour , IDestructable {
         awake();
     }
     protected virtual void awake() {
+        gameObject.layer = LayerMask.NameToLayer("Boulder");
         _particleSystem = GetComponentInChildren<ParticleSystem>();
         if (_particleSystem) {
             //_particleSystem.gameObject.SetActive(false);
@@ -60,7 +61,7 @@ public class Boulder : MonoBehaviour , IDestructable {
     }
 
     protected virtual bool canHandleEvilness(Duck duck) {
-        return duck.evilness < 1;
+        return true; // duck.evilness < 1;
     }
 
     protected virtual void reactToHit(Duck duck) {

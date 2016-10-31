@@ -30,7 +30,7 @@ public class Duck : MonoBehaviour , IDestructable {
     }
 
 	public delegate void HandleGotAHit (DuckHitInfo dhi);
-	public static event HandleGotAHit OnGotAHit;
+	public static event HandleGotAHit OnDuckGotHit;
 
     public delegate void HandleNeverGotHit(Duck duck);
     public static event HandleNeverGotHit OnNeverGotHit;
@@ -124,7 +124,7 @@ public class Duck : MonoBehaviour , IDestructable {
 		gotHit = true;
         doMove = doNothing;
         rb.constraints = RigidbodyConstraints2D.None;
-		OnGotAHit (DuckHitInfo.make(boulder, this));
+		OnDuckGotHit (DuckHitInfo.make(boulder, this));
 		GetComponent<Rigidbody2D> ().gravityScale = 1f;
         return true;
 	}

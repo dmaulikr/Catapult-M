@@ -10,13 +10,13 @@ public class Shark : MonoBehaviour {
     protected AudioSource neverHitAudio;
 
 	void OnEnable() {
-		Duck.OnGotAHit += celebrate;
+		Duck.OnDuckGotHit += celebrate;
         Duck.OnNeverGotHit += acknowledgeNeverHit;
         ScoreKeeper.Instance.OnReset += reset;
 	}
 
 	void OnDisable() {
-        Duck.OnGotAHit -= celebrate;
+        Duck.OnDuckGotHit -= celebrate;
         Duck.OnNeverGotHit -= acknowledgeNeverHit;
         if (ScoreKeeper.Instance != null) {
             ScoreKeeper.Instance.OnReset -= reset;

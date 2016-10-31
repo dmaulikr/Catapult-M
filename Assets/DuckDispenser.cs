@@ -7,6 +7,7 @@ public class DuckDispenser : MonoBehaviour {
 
     [SerializeField]
     protected DuckOriginals originals;
+    
     protected ChoiceMode choiceMode;
 
 	public float baseFrequency = 2f;
@@ -41,13 +42,13 @@ public class DuckDispenser : MonoBehaviour {
 	}
 
     void OnEnable() {
-		Duck.OnGotAHit += increaseFrequency;
+		Duck.OnDuckGotHit += increaseFrequency;
         Duck.OnNeverGotHit += decreaseFrequency;
         ScoreKeeper.Instance.OnReset += reset;
 	}
 
     void OnDisable() {
-		Duck.OnGotAHit -= increaseFrequency;
+		Duck.OnDuckGotHit -= increaseFrequency;
         Duck.OnNeverGotHit -= decreaseFrequency;
         if (ScoreKeeper.Instance && ScoreKeeper.Instance.OnReset != null) {
             ScoreKeeper.Instance.OnReset -= reset;
@@ -132,6 +133,7 @@ public class DuckDispenser : MonoBehaviour {
 [System.Serializable]
 public struct DuckOriginals
 {
+    public Duck testDuck;
     public Duck duck;
     public BobbingDuck bobbingDuck;
     public RocketDuck rocketDuck;
@@ -140,6 +142,7 @@ public struct DuckOriginals
 
     public Duck this[int i] {
         get {
+            if (testDuck) return testDuck;
             switch (i) {
                 case 0:
                     return duck;

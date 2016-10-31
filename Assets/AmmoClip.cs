@@ -16,8 +16,12 @@ public class AmmoClip : Singleton<AmmoClip> {
     private int ammo {
         get { return _ammo; }
         set {
+            if(value > _ammo) {
+                percentageBar.glow();
+            }
             _ammo = value;
             percentageBar.set(percentageAmmo);
+            percentageBar.setNumbers(_ammo, maxAmmo);
         }
     }
 
@@ -29,15 +33,15 @@ public class AmmoClip : Singleton<AmmoClip> {
 
 	public void Awake () {
         setup();
-        StartCoroutine(refill());
+        //StartCoroutine(refill());
 	}
 
-    private IEnumerator refill() {
-        while(true) {
-            yield return new WaitForSeconds(refillInterval);
-            ammo += refillAmount;
-        }
-    }
+    //private IEnumerator refill() {
+    //    while(true) {
+    //        yield return new WaitForSeconds(refillInterval);
+    //        ammo += refillAmount;
+    //    }
+    //}
 
     public void OnEnable() {
         ScoreKeeper.Instance.OnReset += setup;
@@ -64,11 +68,14 @@ public class AmmoClip : Singleton<AmmoClip> {
         return false;
     }
 
-    public void addAmmo(int amt) {
+    public int addAmmo(int amt) {
         int t = ammo + amt;
-        if (t > maxAmmo) t = maxAmmo;
-        else if (t < 0) t = 0;
-        ammo = t;
+        ammo = Mathf.Clamp(t, 0, maxAmmo);
+        return Mathf.Max(0, t - maxAmmo);
+    }
+
+    public void resetAmmo() {
+        ammo = maxAmmo;
     }
 	
 	void Update () {

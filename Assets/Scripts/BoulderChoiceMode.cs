@@ -2,11 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 
+[System.Serializable]
 public class BoulderChoiceMode : ChoiceMode
 {
-   
+    [SerializeField]
+    private int testBoulderType = 1;
+
     protected override List<int[]> pickArrays {
         get {
+            if(testBoulderType > -1) {
+                return new List<int[]> { new int[] { testBoulderType } };
+            }
             if (_pickArrays == null || _pickArrays.Count == 0) {
                 _pickArrays = new List<int[]> {
                     new int[] { 0 },
@@ -16,7 +22,6 @@ public class BoulderChoiceMode : ChoiceMode
                     new int[] { 0, 2, 4, 2, 4, 3, 4, 1, 4, 0, 4, 2, 0, 4, 4 },
                 };
             }
-            //return new List<int[]> { new int[] { 4 } }; //TEST
             return _pickArrays;
         }
     }

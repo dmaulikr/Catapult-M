@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class BoulderGunBoulder : EmpoweredBoulder {
+public class BoulderGunBoulder : BounceBoulder {
 
     public Boulder prefabSecondary;
 
