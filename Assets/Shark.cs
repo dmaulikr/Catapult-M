@@ -8,8 +8,29 @@ public class Shark : MonoBehaviour {
 	[SerializeField]
 	protected SpriteStrobe bgStrobe;
     protected AudioSource neverHitAudio;
+    [SerializeField]
+    private Transform sneaks;
+    internal bool hasSneaks {
+        get {
+            return sneaks.gameObject.activeSelf;
+        }
+    }
 
-	void OnEnable() {
+    public Transform giveSneaks() {
+        if(!hasSneaks) { return null; }
+        Transform sneaksCopy = Instantiate<Transform>(sneaks);
+        sneaksCopy.position = sneaks.position;
+        //sneaksCopy.localScale = transform.localScale;
+        sneaks.gameObject.SetActive(false);
+        return sneaksCopy;
+    }
+
+    public void getBackSneaks(Transform sneakCopy) {
+        Destroy(sneakCopy);
+        sneaks.gameObject.SetActive(true);
+    }
+
+    void OnEnable() {
 		Duck.OnDuckGotHit += celebrate;
         Duck.OnNeverGotHit += acknowledgeNeverHit;
         ScoreKeeper.Instance.OnReset += reset;

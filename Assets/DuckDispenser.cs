@@ -21,6 +21,8 @@ public class DuckDispenser : MonoBehaviour {
     private int baseIntensityInterval = 2;
 
     private bool startedMaxFrequency;
+    public float duckBarageTimeSeconds = 6f;
+    public float maxFrequency = .025f;
 
     public void Awake() {
         foreach (Duck d in GetComponentsInChildren<Duck>()) {
@@ -73,7 +75,7 @@ public class DuckDispenser : MonoBehaviour {
 
 	public void increaseFrequency(DuckHitInfo dhi) {
         if (!startedMaxFrequency) {
-            frequencyMultiplier = Mathf.Max(.025f, frequencyMultiplier * 0.94f);
+            frequencyMultiplier = Mathf.Max(maxFrequency, frequencyMultiplier * 0.94f);
         }
         if (frequencyMultiplier < .04f) {
             StartCoroutine(resetFrequencyAfterATime());
@@ -87,7 +89,7 @@ public class DuckDispenser : MonoBehaviour {
             yield return null;
         } else {
             startedMaxFrequency = true;
-            yield return new WaitForSeconds(12f);
+            yield return new WaitForSeconds(duckBarageTimeSeconds);
             frequencyMultiplier = 1f;
             startedMaxFrequency = false;
         }
@@ -130,6 +132,18 @@ public class DuckDispenser : MonoBehaviour {
 
 }
 
+//[System.Serializable]
+//public struct Ratio
+//{
+//    public int numerator;
+//    public int denominator;
+
+//    private float numer { get { return (float)numerator; } }
+//    private float denom { get { return (float)denominator; } }
+
+//    public float ratio { get { return numer / denom; } }
+//}
+
 [System.Serializable]
 public struct DuckOriginals
 {
@@ -139,6 +153,7 @@ public struct DuckOriginals
     public RocketDuck rocketDuck;
     public EvilDuck evilDuck;
     public BossDuck bossDuck;
+    public MongWeasel mongWeasel;
 
     public Duck this[int i] {
         get {
@@ -154,6 +169,8 @@ public struct DuckOriginals
                     return evilDuck;
                 case 4:
                     return dispenseBoss ? bossDuck : duck;
+                case 5:
+                    return dispenseMongWeasel ? mongWeasel : duck;
                 default:
                     break;
             }
@@ -164,8 +181,19 @@ public struct DuckOriginals
     public bool dispenseBoss {
         get {
             int r = Mathf.FloorToInt(Time.deltaTime * 10) * 100;
-            int t = Mathf.RoundToInt(Time.deltaTime * 1000) - r; //range: 0 - 99
-            if (t < (int) (15 * (Mathf.Clamp01(ScoreKeeper.Instance.getScore()/10000f) + 1f))) {
+            int t = Mathf.RoundToInt(Time.deltaTime * 1000) - r; 
+            if (t < (int) (15f * (Mathf.Clamp01(ScoreKeeper.Instance.getScore()/10000f) + 1f))) {
+                return true;
+            }
+            return false;
+        }
+    }
+
+    public bool dispenseMongWeasel {
+        get {
+            int r = Mathf.FloorToInt(Time.deltaTime * 10) * 100;
+            int t = Mathf.RoundToInt(Time.deltaTime * 1000) - r; 
+            if (t < (int) (7f * (Mathf.Clamp01(ScoreKeeper.Instance.getScore()/50000f) + .5f))) {
                 return true;
             }
             return false;

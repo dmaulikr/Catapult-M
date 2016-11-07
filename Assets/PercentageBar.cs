@@ -42,7 +42,9 @@ public class PercentageBar : MonoBehaviour {
 
     public void glow() {
         glowBar.SetBool("isGlowTime", true);
-        aud.Play();
+        if(aud) {
+            aud.Play();
+        }
     }
 
     public void doneGlowing() {

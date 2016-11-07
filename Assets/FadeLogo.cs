@@ -15,6 +15,8 @@ public class FadeLogo : MonoBehaviour {
 
     private IEnumerator fade() {
         Color c = sr.color;
+        c.a = 1f;
+        sr.color = c;
         do {
             c.a -= fadeSpeed;
             sr.color = c;

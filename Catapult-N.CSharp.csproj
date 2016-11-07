@@ -104,6 +104,7 @@
     <Compile Include="Assets\Scripts\Ducks\BossDuck.cs" />
     <Compile Include="Assets\Scripts\Ducks\Duck.cs" />
     <Compile Include="Assets\Scripts\Ducks\EvilDuck.cs" />
+    <Compile Include="Assets\Scripts\Ducks\MongWeasel.cs" />
     <Compile Include="Assets\Scripts\Ducks\RocketDuck.cs" />
     <Compile Include="Assets\Scripts\Score\HitsInARow.cs" />
     <Compile Include="Assets\Scripts\Score\ScoreKeeper.cs" />

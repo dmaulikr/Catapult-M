@@ -4,7 +4,6 @@ using System.Collections;
 using System;
 
 public class AmmoClip : Singleton<AmmoClip> {
-
     protected AmmoClip() { }
 
     public float refillInterval = 8f;

@@ -48,6 +48,7 @@ public class ChoiceMode
                     new int[] { 2, 2, 1, 1, 0, 0 },
                     new int[] { 3, 3, 3, 2, 1, 2, 0, 0 },
                     new int[] { 4, 3, 3, 3, 2, 2, 1, 2, 0, 0 },
+                    new int[] { 4, 3, 3, 3, 2, 2, 1, 2, 0, 0 },
                 };
             }
             return _pickArrays;
