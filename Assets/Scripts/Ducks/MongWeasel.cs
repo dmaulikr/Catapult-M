@@ -10,7 +10,6 @@ public class MongWeasel : BossDuck
     [SerializeField]
     private Transform sneaksHolder;
 
-    private bool startedAcquireSneaks;
     private Transform sneaks;
 
     public override void Awake() {
@@ -22,6 +21,14 @@ public class MongWeasel : BossDuck
         if(otherMongWeaselActive()) {
             Destroy(gameObject);
         }
+    }
+
+    public override bool getHit(Boulder boulder) {
+        bool result = base.getHit(boulder);
+        if(isDead) {
+            giveBackSneaks();
+        }
+        return result;
     }
 
     private void clutchSneaks() {
@@ -71,7 +78,6 @@ public class MongWeasel : BossDuck
     }
 
     private void acquireSneaks() {
-        if(startedAcquireSneaks) { return; }
         if (!isNearShark) {
             return;
         }
@@ -79,17 +85,16 @@ public class MongWeasel : BossDuck
         StartCoroutine(grabSneaks());
     }
 
+    private void giveBackSneaks() {
+        shark.getBackSneaks(sneaks);
+        sneaks = null;
+    }
+
     private Vector3 toShark { get { return shark.transform.position - transform.position; } }
     private Quaternion sharkLook { get { return Quaternion.LookRotation(toShark); } }
 
     private IEnumerator grabSneaks() {
-        //Quaternion startRo = transform.rotation;
-        //for (int i = 0; i < 30; ++i) {
-        //    Quaternion ro = Quaternion.Slerp(transform.rotation, sharkLook, .1f);
-        //    Vector3 eul = ro.eulerAngles;
-        //    rb.MoveRotation(eul.z);
-        //    yield return new WaitForFixedUpdate();
-        //}
+        
         sneaks = shark.giveSneaks();
         print("ac sneaks");
         if(sneaks) {
@@ -99,15 +104,14 @@ public class MongWeasel : BossDuck
             float increments = 100f;
             for (int i=0; i< (int)increments; ++i) {
                 float grad = i / increments;
-                sneaks.transform.position = Vector3.Lerp(snpos, sneaksHolder.position, grad);
+                sneaks.position = Vector3.Lerp(snpos, sneaksHolder.position, grad);
                 yield return new WaitForFixedUpdate();
             }
             clutchSneaks();
         }
-        //for (int i = 0; i < 30; ++i) {
-        //    transform.rotation = Quaternion.Slerp(transform.rotation, startRo, .1f);
-        //    yield return new WaitForFixedUpdate();
-        //}
+       
     }
+
+   
 }
 

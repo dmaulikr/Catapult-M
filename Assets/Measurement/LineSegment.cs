@@ -122,18 +122,18 @@ public class LineSegment : MonoBehaviour {
         adjustedExtents();
     }
 
-    public void setExtents(VectorXZ a, VectorXZ b) {
-        throw new System.Exception(); // not in use
-        if ((b - a).dot(distance) < 0f) {
-            VectorXZ temp = a;
-            a = b;
-            b = temp;
-        }
-        start.position = a.vector3(start.position.y);
-        end.position = b.vector3(end.position.y);
-        adjustSides();
-        adjustedExtents();
-    }
+    //public void setExtents(VectorXZ a, VectorXZ b) {
+    //    throw new System.Exception(); // not in use
+    //    if ((b - a).dot(distance) < 0f) {
+    //        VectorXZ temp = a;
+    //        a = b;
+    //        b = temp;
+    //    }
+    //    start.position = a.vector3(start.position.y);
+    //    end.position = b.vector3(end.position.y);
+    //    adjustSides();
+    //    adjustedExtents();
+    //}
 
 
     private void adjustSides() {

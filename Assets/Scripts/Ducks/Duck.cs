@@ -24,7 +24,7 @@ public struct DuckHitInfo
 public class Duck : MonoBehaviour , IDestructable {
 	
 	public float speed = .1f;
-	public bool gotHit {
+	public bool didDie {
         get;
         protected set;
     }
@@ -121,7 +121,7 @@ public class Duck : MonoBehaviour , IDestructable {
     }
 
 	public virtual bool getHit(Boulder boulder) {
-		gotHit = true;
+		didDie = true;
         doMove = doNothing;
         rb.constraints = RigidbodyConstraints2D.None;
 		OnDuckGotHit (DuckHitInfo.make(boulder, this));
@@ -134,8 +134,8 @@ public class Duck : MonoBehaviour , IDestructable {
         rb.angularVelocity = 0f;
     }
 
-    public void getDestroyed() {
-        if (!gotHit) {
+    public virtual void getDestroyed() {
+        if (!didDie) {
             OnNeverGotHit(this);
         }
         if (isClone) {

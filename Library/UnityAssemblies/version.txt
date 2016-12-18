@@ -1,5 +1,5 @@
 5.4.1f1:2.3.0.0
-WebGL
+iOS
 E:/EPrograms/Unity/Editor/Data/Managed/UnityEngine.dll
 E:/EPrograms/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll
 E:/EPrograms/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll

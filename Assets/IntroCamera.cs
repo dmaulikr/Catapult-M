@@ -20,7 +20,7 @@ public class IntroCamera : MonoBehaviour {
     private IEnumerator zoomAndHandoff() {
         transform.position = start.position;
         Vector3 dif = end.position - start.position;
-        float distTwo = dif.sqrMagnitude;
+        //float distTwo = dif.sqrMagnitude;
         Vector3 norm = dif.normalized;
         do {
             transform.position += norm * zoomSpeed * Time.fixedDeltaTime;

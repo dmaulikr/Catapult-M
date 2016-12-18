@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 
+
 public class PlayerBehaviourData : Singleton<PlayerBehaviourData> {
 
     protected PlayerBehaviourData() { }
@@ -26,6 +27,21 @@ public class PlayerBehaviourData : Singleton<PlayerBehaviourData> {
         }
     }
 
+    public string randomName() {
+        return string.Format("random-name{0:00000}", (int)UnityEngine.Random.value * 10000);
+    }
+
+    public string playerName { 
+        get {
+            if(PlayerPrefs.HasKey(PlayerKeys.PlayerName)) {
+                return PlayerPrefs.GetString(PlayerKeys.PlayerName);
+            }
+            return null;
+        }
+        set {
+            PlayerPrefs.SetString(PlayerKeys.PlayerName, value);
+        }
+    }
 
     void Start () {
         int times = 0;

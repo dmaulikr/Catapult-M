@@ -26,7 +26,7 @@ public class Shark : MonoBehaviour {
     }
 
     public void getBackSneaks(Transform sneakCopy) {
-        Destroy(sneakCopy);
+        Destroy(sneakCopy.gameObject);
         sneaks.gameObject.SetActive(true);
     }
 

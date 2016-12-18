@@ -23,6 +23,7 @@ public class DuckDispenser : MonoBehaviour {
     private bool startedMaxFrequency;
     public float duckBarageTimeSeconds = 6f;
     public float maxFrequency = .025f;
+    private bool dispensingAlready;
 
     public void Awake() {
         foreach (Duck d in GetComponentsInChildren<Duck>()) {
@@ -40,7 +41,7 @@ public class DuckDispenser : MonoBehaviour {
     }
 
     void Start () {
-        StartCoroutine(dispense());
+        //StartCoroutine(dispense());
 	}
 
     void OnEnable() {
@@ -57,6 +58,18 @@ public class DuckDispenser : MonoBehaviour {
         }
 	}
 
+    public void onGMPause(bool paused) {
+        print("got gm paused is " + paused);
+        if(paused) {
+            if(!shouldDispense) {
+                shouldDispense = false;
+            }
+        } else {
+            shouldDispense = true;
+            StartCoroutine(dispense());
+        }
+    }
+
     private void reset() {
         choiceMode.reset();
         frequencyMultiplier = 1f;
@@ -67,9 +80,13 @@ public class DuckDispenser : MonoBehaviour {
     }
 
     private IEnumerator dispense() {
-        while(shouldDispense) {
-            shootttt();
-            yield return new WaitForSeconds(baseFrequency * frequencyMultiplier);
+        if (!dispensingAlready) {
+            dispensingAlready = true;
+            while (shouldDispense) {
+                shootttt();
+                yield return new WaitForSeconds(baseFrequency * frequencyMultiplier);
+            }
+            dispensingAlready = false;
         }
     }
 
@@ -121,7 +138,7 @@ public class DuckDispenser : MonoBehaviour {
     }
 
 	private void shootttt() {
-        Duck d = Instantiate<Duck>(originals[choiceMode.getPick()]); // originals[0]);
+        Duck d = Instantiate<Duck>(originals[choiceMode.getPick()]); 
         d.transform.parent = null;
 		d.transform.position = transform.position;
         d.isClone = true;
@@ -131,6 +148,9 @@ public class DuckDispenser : MonoBehaviour {
 
 
 }
+
+//TODO: cooldown the duck hordes even more.
+// make ducks harder to hit even more
 
 //[System.Serializable]
 //public struct Ratio
@@ -153,7 +173,7 @@ public struct DuckOriginals
     public RocketDuck rocketDuck;
     public EvilDuck evilDuck;
     public BossDuck bossDuck;
-    public MongWeasel mongWeasel;
+    public MongWeasel ratOnBike;
 
     public Duck this[int i] {
         get {
@@ -170,7 +190,7 @@ public struct DuckOriginals
                 case 4:
                     return dispenseBoss ? bossDuck : duck;
                 case 5:
-                    return dispenseMongWeasel ? mongWeasel : duck;
+                    return dispenseRatOnBike ? ratOnBike : duck;
                 default:
                     break;
             }
@@ -189,8 +209,9 @@ public struct DuckOriginals
         }
     }
 
-    public bool dispenseMongWeasel {
+    public bool dispenseRatOnBike {
         get {
+            
             int r = Mathf.FloorToInt(Time.deltaTime * 10) * 100;
             int t = Mathf.RoundToInt(Time.deltaTime * 1000) - r; 
             if (t < (int) (7f * (Mathf.Clamp01(ScoreKeeper.Instance.getScore()/50000f) + .5f))) {

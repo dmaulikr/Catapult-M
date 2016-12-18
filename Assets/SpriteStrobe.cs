@@ -10,12 +10,12 @@ public class SpriteStrobe : MonoBehaviour {
 	private Color defaultColor;
     // Use this for initialization
 
-    private float lastStrobeTime;
+    //private float lastStrobeTime;
     [SerializeField]
     private int flashCount = 3;
     [SerializeField]
     protected float strobeInterval = .02f;
-	private bool shouldStrobe;
+	//private bool shouldStrobe;
     private int strobeOn;
 
     void Start () {
@@ -29,8 +29,7 @@ public class SpriteStrobe : MonoBehaviour {
 	}
 
 	public void strobe() {
-		lastStrobeTime = Time.fixedTime;
-		shouldStrobe = true;
+		//shouldStrobe = true;
         StartCoroutine(strobeTime());
 	}
 

@@ -32,7 +32,8 @@ public class ScoreKeeper :  Singleton<ScoreKeeper> {
     public void Destroy() {
 		Duck.OnDuckGotHit -= registerAPoint;
         Duck.OnNeverGotHit -= applyPenalty;
-	}
+        
+    }
 
     [SerializeField]
     private PercentageBar healthBar;
@@ -115,6 +116,7 @@ public class ScoreKeeper :  Singleton<ScoreKeeper> {
 
 	public void lose(string because) {
         if(deathProcessStarted) { return; }
+        StartCoroutine(ServerConnection.Instance.SubmitScore());
         deathProcessStarted = true;
         StartCoroutine(showAndLose(because));
 	}

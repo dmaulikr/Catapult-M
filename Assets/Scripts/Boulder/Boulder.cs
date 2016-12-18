@@ -30,7 +30,7 @@ public class Boulder : MonoBehaviour , IDestructable {
 
     protected virtual void handleCollisionEnter(Collision2D other) {
 		Duck ducky = other.transform.GetComponent<Duck> ();
-		if (ducky != null && !ducky.gotHit) {
+		if (ducky != null && !ducky.didDie) {
             if (canHandleEvilness(ducky)) {
                 AudioManager.Instance.playDink();
                 if (ducky.getHit(this)) {

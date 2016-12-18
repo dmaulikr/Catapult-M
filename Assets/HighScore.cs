@@ -8,6 +8,7 @@ public static class PlayerKeys
     public static string HighScore = "HIGH_SCORE";
     public static string LaunchedGameCount = "LAUNCH_GAME_COUNT";
     public static string UnPauses = "UNPAUSES";
+    internal static string PlayerName;
 }
 
 
@@ -29,6 +30,7 @@ public class HighScore : Singleton<HighScore> {
             highScore = score;
             highScoreText.text = "" + highScore;
             PlayerPrefs.SetInt(PlayerKeys.HighScore, highScore);
+            StartCoroutine(ServerConnection.Instance.SubmitScore());
         }
     }
 }
