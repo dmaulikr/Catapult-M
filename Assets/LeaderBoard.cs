@@ -14,6 +14,10 @@ public class LeaderBoard : MonoBehaviour {
         }));
     }
 
+    public void hide() {
+        showBoard(false);
+    }
+
     public void OnEnable() {
         show();
     }

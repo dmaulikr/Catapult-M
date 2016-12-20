@@ -81,6 +81,7 @@
     <Compile Include="Assets\ColorLerp.cs" />
     <Compile Include="Assets\Dove.cs" />
     <Compile Include="Assets\DuckDispenser.cs" />
+    <Compile Include="Assets\EnlargeForMobile.cs" />
     <Compile Include="Assets\FadeLogo.cs" />
     <Compile Include="Assets\GameManager.cs" />
     <Compile Include="Assets\GlowCallback.cs" />

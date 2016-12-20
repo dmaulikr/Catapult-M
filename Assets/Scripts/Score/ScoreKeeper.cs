@@ -80,6 +80,18 @@ public class ScoreKeeper :  Singleton<ScoreKeeper> {
         }
     }
 
+    private int _boulderAirballCount;
+    public int airballCount { get { return _boulderAirballCount; } }
+    public void addAirball() {
+        _boulderAirballCount++;
+    }
+    public void decreaseAirballCount() {
+        _boulderAirballCount = Mathf.FloorToInt(_boulderAirballCount / 2);
+    }
+    public void resetAirballCount() {
+        _boulderAirballCount = 0;
+    }
+
     private int getAmmoBonus(int value) {
         return (int)Mathf.Round(value * ammoBonusMultiplier);
     }
@@ -110,8 +122,8 @@ public class ScoreKeeper :  Singleton<ScoreKeeper> {
 
     private void applyPenalty(Duck duck) {
         hitsInARow.resetHits();
-        AmmoClip.Instance.addAmmo((int)(-duck.missPenalty));
-        health -= duck.missPenalty;
+        AmmoClip.Instance.addAmmo(Mathf.RoundToInt(-duck.missPenalty));
+        health -= duck.missPenalty  * Mathf.RoundToInt(1 + Mathf.Clamp(airballCount / 2f, 0f, 2f));
     }
 
 	public void lose(string because) {
@@ -137,6 +149,7 @@ public class ScoreKeeper :  Singleton<ScoreKeeper> {
         health = maxHealth;
         AmmoClip.Instance.resetAmmo();
         text.text = "";
+        resetAirballCount();
         OnReset();
     }
 }

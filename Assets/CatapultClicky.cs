@@ -33,7 +33,7 @@ public class CatapultClicky : MonoBehaviour , UpgradeReceiver
     }
 
     public void Update() {
-#if UNITY_IOS || UNITY_ANDRIOD
+#if !UNITY_EDITOR && (UNITY_IOS || UNITY_ANDRIOD)
         if (Mathf.Abs(Time.time - lastTouchTime) > touchDownTimeSeconds && Input.touchCount > 0) {
             lastTouchTime = Time.time;
             requests.Add(Time.realtimeSinceStartup);

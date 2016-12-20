@@ -66,6 +66,7 @@ public class Boulder : MonoBehaviour , IDestructable {
 
     protected virtual void reactToHit(Duck duck) {
         gotOne = true;
+        ScoreKeeper.Instance.decreaseAirballCount();
         showParticles();
     }
 
@@ -73,6 +74,7 @@ public class Boulder : MonoBehaviour , IDestructable {
 	public void getDestroyed() {
 		if (!gotOne) {
 			shark.beDisappointed ();
+            ScoreKeeper.Instance.addAirball();
 		}
 		Destroy (this.gameObject);
 	}

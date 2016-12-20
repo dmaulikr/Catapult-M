@@ -39,9 +39,17 @@ public class GameManager : Singleton<GameManager> {
         isGMPaused = false;
         gmPause.Invoke(false);
     }
+
+    public void inGameUnPause() {
+        doInGamePause(false);
+    }
     
     public void inGamePause() {
-        inGamePaused = !inGamePaused;
+        doInGamePause(!inGamePaused);
+    }
+
+    private void doInGamePause(bool pause) {
+        inGamePaused = pause;
         Time.timeScale = inGamePaused ? 0f : 1f;
         pauseScrim.gameObject.SetActive(inGamePaused);
         showLeaderBoard(inGamePaused);
