@@ -16,6 +16,7 @@ public class ScoreKeeper :  Singleton<ScoreKeeper> {
     public Reset OnReset;
 
     public Text text;
+    public Text textMobile;
 	protected ScoreKeeper() {}
 
     public float ammoBonusMultiplier = 1f;
@@ -68,8 +69,15 @@ public class ScoreKeeper :  Singleton<ScoreKeeper> {
             
             _score = value;
             HighScore.Instance.updateHighscore(_score);
-            if (text != null)
-                text.text = "" + _score;
+            Text scoreText;
+#if UNITY_IOS || UNITY_ANDROID
+            scoreText = textMobile;
+#else
+            scoreText = text;
+#endif
+            if (scoreText) {
+                scoreText.text = string.Format("{0}", _score); 
+            }
             trophyShelf.checkAchievements();
             //if (!canLose) {
             //    canLose = _score > 0;
@@ -84,6 +92,7 @@ public class ScoreKeeper :  Singleton<ScoreKeeper> {
     public int airballCount { get { return _boulderAirballCount; } }
     public void addAirball() {
         _boulderAirballCount++;
+        health--;
     }
     public void decreaseAirballCount() {
         _boulderAirballCount = Mathf.FloorToInt(_boulderAirballCount / 2);

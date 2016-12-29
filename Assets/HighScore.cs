@@ -18,6 +18,7 @@ public class HighScore : Singleton<HighScore> {
 
     private int highScore;
     public Text highScoreText;
+    public Text highScoreTextMobile;
 
     public void Awake() {
         if (PlayerPrefs.HasKey(PlayerKeys.HighScore)) {
@@ -28,7 +29,15 @@ public class HighScore : Singleton<HighScore> {
     public void updateHighscore(int score) {
         if (score > highScore) {
             highScore = score;
-            highScoreText.text = "" + highScore;
+            string text = string.Format("{0}", highScore);
+#if UNITY_IOS || UNITY_ANDRIOD
+            Text ui = highScoreTextMobile;
+#else
+            Text ui = highScoreText;
+#endif
+            if(ui) {
+                ui.text = text;
+            }
             PlayerPrefs.SetInt(PlayerKeys.HighScore, highScore);
             StartCoroutine(ServerConnection.Instance.SubmitScore());
         }

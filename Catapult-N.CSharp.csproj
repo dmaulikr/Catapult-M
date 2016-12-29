@@ -120,6 +120,7 @@
     <Compile Include="Assets\ServerConnection.cs" />
     <Compile Include="Assets\SetFonts.cs" />
     <Compile Include="Assets\Shark.cs" />
+    <Compile Include="Assets\ShowHideIfIOS.cs" />
     <Compile Include="Assets\ShowHideLB.cs" />
     <Compile Include="Assets\Singleton.cs" />
     <Compile Include="Assets\SpriteStrobe.cs" />
