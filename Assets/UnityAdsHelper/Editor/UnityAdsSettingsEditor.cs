@@ -70,7 +70,7 @@ public class UnityAdsSettingsEditor : Editor
 		{
 			settings.overrideAdsServiceInit = overrideInitialization;
 			AdvertisementSettings.initializeOnStartup = !settings.overrideAdsServiceInit;
-			EditorApplication.SaveAssets();
+			AssetDatabase.SaveAssets();
 		}
 
 		EditorGUILayout.Space();

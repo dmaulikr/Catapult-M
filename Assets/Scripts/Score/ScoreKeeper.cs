@@ -10,7 +10,6 @@ public class ScoreKeeper :  Singleton<ScoreKeeper> {
     private TrophyShelf trophyShelf;
     [SerializeField]
     private LosePanel losePanel;
-    //private bool canLose = true;
 
     public delegate void Reset();
     public Reset OnReset;
@@ -25,15 +24,21 @@ public class ScoreKeeper :  Singleton<ScoreKeeper> {
 
 	public void Awake() {
         hitsInARow = GetComponent<HitsInARow>();
-		Duck.OnDuckGotHit += registerAPoint;
-        Duck.OnNeverGotHit += applyPenalty;
         reset();
     }
 
     public void Destroy() {
+        
+    }
+
+    public void OnEnable() {
+		Duck.OnDuckGotHit += registerAPoint;
+        Duck.OnNeverGotHit += applyPenalty;
+    }
+
+    public void OnDisable() {
 		Duck.OnDuckGotHit -= registerAPoint;
         Duck.OnNeverGotHit -= applyPenalty;
-        
     }
 
     [SerializeField]
@@ -135,19 +140,18 @@ public class ScoreKeeper :  Singleton<ScoreKeeper> {
         health -= duck.missPenalty  * Mathf.RoundToInt(1 + Mathf.Clamp(airballCount / 2f, 0f, 2f));
     }
 
-	public void lose(string because) {
+	private void lose(string because) {
         if(deathProcessStarted) { return; }
         StartCoroutine(ServerConnection.Instance.SubmitScore());
-        deathProcessStarted = true;
         StartCoroutine(showAndLose(because));
 	}
 
     private IEnumerator showAndLose(string because) {
+        deathProcessStarted = true;
         losePanel.show(because);
         yield return new WaitForSeconds(4f);
         losePanel.hide();
         reset();
-        OnReset();
         deathProcessStarted = false;
     }
 

@@ -47,19 +47,12 @@ public class PlayerBehaviourData : Singleton<PlayerBehaviourData> {
         int times = 0;
         if(PlayerPrefs.HasKey(PlayerKeys.LaunchedGameCount)) {
             times = PlayerPrefs.GetInt(PlayerKeys.LaunchedGameCount);
-            print(times + "<-- returned to game times");
         }
         PlayerPrefs.SetInt(PlayerKeys.LaunchedGameCount, ++times);
 	}
 
     public void OnApplicationPause(bool pause) {
-        print("unpauses: " + unpauses);
         if(!pause) { unpauses++; }
-
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
 }

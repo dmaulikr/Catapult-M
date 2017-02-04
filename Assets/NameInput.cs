@@ -8,16 +8,23 @@ public class NameInput : MonoBehaviour {
     [SerializeField]
     private Text nameLabel;
 
+    public delegate void OnSubmitNameCompleted();
+    public OnSubmitNameCompleted onSubmitNameCompleted;
+
     public void Awake() {
-        ScoreKeeper.Instance.OnReset += restart;
+        //ScoreKeeper.Instance.OnReset += restart;
         input = GetComponent<InputField>();
     }
 
     public void OnDestory() {
-        ScoreKeeper.Instance.OnReset -= restart;
+        //ScoreKeeper.Instance.OnReset -= restart;
     }
 
-    private void restart() {
+    //private void restart() {
+    //    show();
+    //}
+
+    public void getName() {
         show();
     }
 
@@ -30,19 +37,16 @@ public class NameInput : MonoBehaviour {
             input.GetComponentInChildren<Text>().color = new Color(.3f, .3f, .3f);
         }
 
-        //Time.timeScale = 0f;
-        GameManager.Instance.pause();
-        namePanel.gameObject.SetActive(true);
+        //GameManager.Instance.pause();
+        //namePanel.gameObject.SetActive(true); //someone else should manage this
         input.interactable = true;
         input.ActivateInputField();
     }
 
     private void hide() {
-        //Time.timeScale = 1f;
-        print("name input hide");
-        GameManager.Instance.unpause();
-        //input.interactable = false;
-        namePanel.gameObject.SetActive(false);
+        //print("name input hide");
+        //GameManager.Instance.unpause();
+        //namePanel.gameObject.SetActive(false);
     }
 
     public void onSubmitName() {
@@ -53,7 +57,8 @@ public class NameInput : MonoBehaviour {
             PlayerBehaviourData.Instance.playerName = input.text;
         }
         nameLabel.text = PlayerBehaviourData.Instance.playerName;
-        hide();
+        hide(); //TODO: purge
+        if(onSubmitNameCompleted != null) { onSubmitNameCompleted(); }
     }
-    //TODO: next time theres an ad. if you watch all of it..you'll get...
+    //TODO: next time there's an ad. if you watch all of it..you'll get...
 }

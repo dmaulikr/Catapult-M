@@ -97,6 +97,7 @@
     <Compile Include="Assets\NameInput.cs" />
     <Compile Include="Assets\PercentageBar.cs" />
     <Compile Include="Assets\PlayerBehaviourData.cs" />
+    <Compile Include="Assets\PlayerIDManager.cs" />
     <Compile Include="Assets\Scripts\Boulder\BombBoulder.cs" />
     <Compile Include="Assets\Scripts\Boulder\BoomerangBoulder.cs" />
     <Compile Include="Assets\Scripts\Boulder\Boulder.cs" />

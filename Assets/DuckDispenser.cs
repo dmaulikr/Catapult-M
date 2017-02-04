@@ -48,6 +48,7 @@ public class DuckDispenser : MonoBehaviour {
 		Duck.OnDuckGotHit += increaseFrequency;
         Duck.OnNeverGotHit += decreaseFrequency;
         ScoreKeeper.Instance.OnReset += reset;
+        GameManager.Instance.gmPause += onGMPause;
 	}
 
     void OnDisable() {
@@ -56,11 +57,14 @@ public class DuckDispenser : MonoBehaviour {
         if (ScoreKeeper.Instance && ScoreKeeper.Instance.OnReset != null) {
             ScoreKeeper.Instance.OnReset -= reset;
         }
+        if(GameManager.Instance && GameManager.Instance.gmPause != null) {
+            GameManager.Instance.gmPause -= onGMPause;
+        }
 	}
 
-    public void onGMPause(bool paused) {
-        print("got gm paused is " + paused);
-        if(paused) {
+    public void onGMPause(bool pausedd) {
+        print("got gm paused is " + pausedd);
+        if(pausedd) {
             if(!shouldDispense) {
                 shouldDispense = false;
             }
